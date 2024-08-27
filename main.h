@@ -33,17 +33,14 @@
 #define GATE_DRIVER_1_Pin PIN5
 #define GATE_DRIVER_1_GPIO_Port PB
 
-#define ADC_CSR_EOC (1 << 7)
-#define ADC_CSR_AWD (1 << 6)
-#define ADC_CSR_EOCIE (1 << 5)
-#define ADC_CSR_AWDIE (1 << 4)
+#define ADC1_CR1_OVERIE (1 << 7)
 
-#define ADC_CR1_CONT (1 << 1)
-#define ADC_CR1_ADON (1 << 0)
+#define ADC1_CR1_AWDIE (1 << 4)
+#define ADC1_CR1_EOCIE (1 << 3)
+#define ADC1_CR1_CONT (1 << 2)
+#define ADC1_CR1_START (1 << 1)
+#define ADC1_CR1_ADON (1 << 0)
 
-#define ADC_CR2_EXTTRIG (1 << 6)
-#define ADC_CR2_EXTSEL (1 << 4)
-#define ADC_CR2_ALIGN (1 << 3)
-#define ADC_CR2_SCAN (1 << 1)
+#define AD
 
 #endif

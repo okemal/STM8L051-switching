@@ -61,9 +61,7 @@ static void GPIO_Init(void) {
 }
 
 static void ADC_Init(void) {
-  ADC1_SR = 4; // Select channel 4
-  ADC1_CR1 |= ADC_CR1_ADON; // ADON
-  ADC1_CR2 &= ~ADC_CR2_ALIGN; // Align left
+  
 }
 
 static void simple_Delay(uint32_t count) {
