@@ -24,7 +24,8 @@ void main(void) {
     ADC1_CR1 |= ADC1_CR1_START;
 
     // Wait for end of conversion
-    while (!(ADC1_SR & ADC1_SR_EOC));
+    while (!(ADC1_SR & ADC1_SR_EOC))
+      ;
 
     // Read result
     adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment(?)
@@ -104,23 +105,24 @@ void simpleDelay(uint32_t count) {
  * Use TIM2 to generate a delay.
  */
 void delayms(uint16_t ms) {
-    // Assuming a clock of 16 MHz, and a delay of 1 ms
+  // Assuming a clock of 16 MHz, and a delay of 1 ms
 
-    // (Clock / Prescaler) * ms
-    uint16_t timer_value = (16000 / 16) * ms;
-    
-    // Prescale
-    TIM2_PSCR |= 4;
+  // (Clock / Prescaler) * ms
+  uint16_t timer_value = (16000 / 16) * ms;
 
-    // Set Auto-Reload Register value
-    TIM2_ARRH = (uint8_t)(timer_value << 8);
-    TIM2_ARRL = (uint8_t)timer_value;
+  // Prescale
+  TIM2_PSCR |= 4;
 
-    // Start Timer
-    TIM2_CR1 |= TIM2_CR1_CEN;
+  // Set Auto-Reload Register value
+  TIM2_ARRH = (timer_value >> 8);
+  TIM2_ARRL = (timer_value & 0xFF);
 
-    // Wait for update flag
-    while (!(TIM2_SR1 & TIM2_SR1_UIF));
-    TIM2_SR1 &= ~TIM2_SR1_UIF; // Clear update flag
-    TIM2_CR1 &= ~TIM2_CR1_CEN; // Stop Timer
+  // Start Timer
+  TIM2_CR1 |= TIM2_CR1_CEN;
+
+  // Wait for update flag
+  while (!(TIM2_SR1 & TIM2_SR1_UIF))
+    ;
+  TIM2_SR1 &= ~TIM2_SR1_UIF; // Clear update flag
+  TIM2_CR1 &= ~TIM2_CR1_CEN; // Stop Timer
 }
