@@ -27,7 +27,7 @@
 #define TILT_SWITCH_Pin PIN1
 #define TILT_SWITCH_GPIO_Port PC
 
-// ADC_CR1
+// ADC1_CR1
 #define ADC1_CR1_OVERIE (1 << 7)
 #define ADC1_CR1_AWDIE (1 << 4)
 #define ADC1_CR1_EOCIE (1 << 3)
@@ -35,21 +35,21 @@
 #define ADC1_CR1_START (1 << 1)
 #define ADC1_CR1_ADON (1 << 0)
 
-// ADC_CR2
-#define ADC_CR2_PRESC (1 << 7)
+// ADC1_CR2
+#define ADC1_CR2_PRESC (1 << 7)
 
-// ADC_SR
-#define ADC_SR_OVER (1 << 2)
-#define ADC_SR_AWD (1 << 1)
-#define ADC_SR_EOC (1 << 0)
+// ADC1_SR
+#define ADC1_SR_OVER (1 << 2)
+#define ADC1_SR_AWD (1 << 1)
+#define ADC1_SR_EOC (1 << 0)
 
-// ADC_SQR1
-#define ADC_SQR1_DMAOFF (1 << 7)
-#define ADC_SQR1_CHSEL_STS (1 << 5)
-#define ADC_SQR1_CHSEL_SVREFINT (1 << 4)
+// ADC1_SQR1
+#define ADC1_SQR1_DMAOFF (1 << 7)
+#define ADC1_SQR1_CHSEL_STS (1 << 5)
+#define ADC1_SQR1_CHSEL_SVREFINT (1 << 4)
 
-// ADC_TRIGR1
-#define ADC_TRIGR1_TSON (1 << 5)
-#define ADC_TRIGR1_VREFINTON (1 << 4)
+// ADC1_TRIGR1
+#define ADC1_TRIGR1_TSON (1 << 5)
+#define ADC1_TRIGR1_VREFINTON (1 << 4)
 
 #endif

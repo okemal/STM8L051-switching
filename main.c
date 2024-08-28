@@ -7,12 +7,24 @@ void GPIOInit(void);
 void ADCInit(void);
 void simpleDelay(uint32_t count);
 
+uint16_t adc_val;
+
 void main(void) {
   systemClockInit();
   GPIOInit();
   ADCInit();
 
   for (;;) {
+    // Start ADC
+    ADC1_CR1 |= ADC1_CR1_START;
+
+    // Wait for end of conversion
+    while (!(ADC1_SR & ADC1_SR_EOC))
+      __asm("nop");
+
+    // Read result
+    adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment
+
     if (PORT(TILT_SWITCH_GPIO_Port, IDR) & TILT_SWITCH_Pin) {
       PORT(LED_GPIO_Port, ODR) |= LED_Pin; // Set LED high
     } else {
@@ -22,7 +34,10 @@ void main(void) {
   }
 }
 
-void systemClockInit(void) { CLK_DIVR = 0x00; }
+void systemClockInit(void) {
+  // No division (16 MHz)
+  CLK_DIVR = 0x00;
+}
 
 void GPIOInit(void) {
   // Set TILT_SWITCH as input
@@ -51,8 +66,19 @@ void GPIOInit(void) {
   PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
 }
 
-void ADCInit(void) {}
+/*
+ * Initialization function for the ADC.
+ */
+void ADCInit(void) {
+  ADC1_CR1 |= ADC1_CR1_ADON;
 
+  // Delay needed (longer than wake-up, shorter than idle)
+  simpleDelay(1000UL);
+}
+
+/*
+ * Very crude delay function.
+ */
 void simpleDelay(uint32_t count) {
   while (count--) {
     __asm("nop");
