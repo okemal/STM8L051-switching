@@ -11,6 +11,16 @@ This project is designed for the STM8L051F3 microcontroller. It drives two TRIAC
 - **Tilt Switch Input**: Monitors a tilt switch to determine whether to turn TRIACs on or off.
 - **Efficient MCU Utilization**: Designed specifically for the STM8L051F3 microcontroller.
 
+## Pinout
+
+| Pin Nb | PINs | FUNCTIONs   | LABELs         |
+|--------|------|-------------|----------------|
+| 9      | PD0  | ADC1_IN22   | CURRENT_SENSOR |
+| 14	   | PB4	 | GPIO_Output | LED            |
+| 17	   | PB7	 | GPIO_Output | TRIAC_1        |
+| 18	   | PC0	 | GPIO_Output | TRIAC_0        |
+| 19     | PC1	 | GPIO_Input  | TILT_SWITCH    |
+
 ## Installation
 
 To get started with this project, you will need:
@@ -22,6 +32,6 @@ To get started with this project, you will need:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
+   git clone https://github.com/okemal/STM8L051-switching.git
    ```
-2. **Load the project file in IdeaSTM8**: Use the .prjsm8 file in the repo.
+2. **Load the project file in IdeaSTM8**: Use the .prjsm8 file in the root folder. In IdeaSTM8 it's Project-->Load-->STM8L051-switching.prjsm8
