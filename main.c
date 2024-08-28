@@ -24,8 +24,7 @@ void main(void) {
     ADC1_CR1 |= ADC1_CR1_START;
 
     // Wait for end of conversion
-    while (!(ADC1_SR & ADC1_SR_EOC))
-      ;
+    while (!(ADC1_SR & ADC1_SR_EOC));
 
     // Read result
     adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment(?)
@@ -63,6 +62,11 @@ void GPIOInit(void) {
   PORT(LED_RED_GPIO_Port, DDR) |= LED_RED_Pin;
   // Set LED_RED as "push-pull"
   PORT(LED_RED_GPIO_Port, CR1) |= LED_RED_Pin;
+
+  // Set BUZZER as output
+  PORT(BUZZER_GPIO_Port, DDR) |= BUZZER_Pin;
+  // Set BUZZER as "push-pull"
+  PORT(BUZZER_GPIO_Port, CR1) |= BUZZER_Pin;
 
   // Set TRIAC_0 as output
   PORT(TRIAC_0_GPIO_Port, DDR) |= TRIAC_0_Pin;
@@ -127,8 +131,10 @@ void delayms(uint16_t ms) {
   TIM2_CR1 |= TIM2_CR1_CEN;
 
   // Wait for update flag
-  while (!(TIM2_SR1 & TIM2_SR1_UIF))
-    ;
-  TIM2_SR1 &= ~TIM2_SR1_UIF; // Clear update flag
-  TIM2_CR1 &= ~TIM2_CR1_CEN; // Stop Timer
+  while (!(TIM2_SR1 & TIM2_SR1_UIF));
+  // Clear update flag
+  TIM2_SR1 &= ~TIM2_SR1_UIF;
+
+  // Stop Timer
+  TIM2_CR1 &= ~TIM2_CR1_CEN;
 }

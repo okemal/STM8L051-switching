@@ -15,6 +15,9 @@
 #define PIN6 (1 << 6)
 #define PIN7 (1 << 7)
 
+#define BUZZER_Pin PIN1
+#define BUZZER_GPIO_Port PB
+
 #define LED_GREEN_Pin PIN3
 #define LED_GREEN_GPIO_Port PB
 
