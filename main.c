@@ -31,22 +31,22 @@ static void GPIO_Init(void) {
   PORT(LED_GPIO_Port, DDR) |= LED_Pin;
   // Set LED as "push-pull"
   PORT(LED_GPIO_Port, CR1) |= LED_Pin;
-  
+
   // Set TRIAC_0 as output
   PORT(TRIAC_0_GPIO_Port, DDR) |= TRIAC_0_Pin;
   // Set TRIAC_0 as "push-pull"
   PORT(TRIAC_0_GPIO_Port, CR1) |= TRIAC_0_Pin;
-  
+
   // Set TRIAC_1 as output
   PORT(TRIAC_1_GPIO_Port, DDR) |= TRIAC_1_Pin;
   // Set TRIAC_1 as "push-pull"
   PORT(TRIAC_1_GPIO_Port, CR1) |= TRIAC_1_Pin;
-  
+
   // Set GATE_DRIVER_0 as output
   PORT(GATE_DRIVER_0_GPIO_Port, DDR) |= GATE_DRIVER_0_Pin;
   // Set GATE_DRIVER_0 as "push-pull"
   PORT(GATE_DRIVER_0_GPIO_Port, CR1) |= GATE_DRIVER_0_Pin;
-  
+
   // Set GATE_DRIVER_1 as output
   PORT(GATE_DRIVER_1_GPIO_Port, DDR) |= GATE_DRIVER_1_Pin;
   // Set GATE_DRIVER_1 as "push-pull"
@@ -60,9 +60,7 @@ static void GPIO_Init(void) {
   PORT(GATE_DRIVER_1_GPIO_Port, ODR) &= ~GATE_DRIVER_1_Pin;
 }
 
-static void ADC_Init(void) {
-  
-}
+static void ADC_Init(void) {}
 
 static void simple_Delay(uint32_t count) {
   while (count--) {
