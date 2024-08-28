@@ -32,9 +32,9 @@ void main(void) {
 
     // Check if tilt switch is on
     if (PORT(TILT_SWITCH_GPIO_Port, IDR) & TILT_SWITCH_Pin) {
-      PORT(LED_GPIO_Port, ODR) |= LED_Pin; // Set LED high
+      PORT(LED_GREEN_GPIO_Port, ODR) |= LED_GREEN_Pin; // Set LED high
     } else {
-      PORT(LED_GPIO_Port, ODR) &= ~LED_Pin; // Set LED low
+      PORT(LED_GREEN_GPIO_Port, ODR) &= ~LED_GREEN_Pin; // Set LED low
     }
     simpleDelay(1000UL);
   }
@@ -54,10 +54,15 @@ void GPIOInit(void) {
   // Enable pull-up resistor
   PORT(TILT_SWITCH_GPIO_Port, CR1) |= TILT_SWITCH_Pin;
 
-  // Set LED as output
-  PORT(LED_GPIO_Port, DDR) |= LED_Pin;
-  // Set LED as "push-pull"
-  PORT(LED_GPIO_Port, CR1) |= LED_Pin;
+  // Set LED_GREEN as output
+  PORT(LED_GREEN_GPIO_Port, DDR) |= LED_GREEN_Pin;
+  // Set LED_GREEN as "push-pull"
+  PORT(LED_GREEN_GPIO_Port, CR1) |= LED_GREEN_Pin;
+
+  // Set LED_RED as output
+  PORT(LED_RED_GPIO_Port, DDR) |= LED_RED_Pin;
+  // Set LED_RED as "push-pull"
+  PORT(LED_RED_GPIO_Port, CR1) |= LED_RED_Pin;
 
   // Set TRIAC_0 as output
   PORT(TRIAC_0_GPIO_Port, DDR) |= TRIAC_0_Pin;
@@ -70,7 +75,8 @@ void GPIOInit(void) {
   PORT(TRIAC_1_GPIO_Port, CR1) |= TRIAC_1_Pin;
 
   // Initialize outputs to low
-  PORT(LED_GPIO_Port, ODR) &= ~LED_Pin;
+  PORT(LED_GREEN_GPIO_Port, ODR) &= ~LED_GREEN_Pin;
+  PORT(LED_RED_GPIO_Port, ODR) &= ~LED_RED_Pin;
   PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
   PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
 }

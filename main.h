@@ -15,8 +15,11 @@
 #define PIN6 (1 << 6)
 #define PIN7 (1 << 7)
 
-#define LED_Pin PIN4
-#define LED_GPIO_Port PB
+#define LED_GREEN_Pin PIN3
+#define LED_GREEN_GPIO_Port PB
+
+#define LED_RED_Pin PIN4
+#define LED_RED_GPIO_Port PB
 
 #define TRIAC_1_Pin PIN7
 #define TRIAC_1_GPIO_Port PB
