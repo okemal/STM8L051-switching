@@ -20,11 +20,12 @@ void main(void) {
 
     // Wait for end of conversion
     while (!(ADC1_SR & ADC1_SR_EOC))
-      __asm("nop");
+      simpleDelay(1);
 
     // Read result
     adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment
 
+    // Check if tilt switch is on
     if (PORT(TILT_SWITCH_GPIO_Port, IDR) & TILT_SWITCH_Pin) {
       PORT(LED_GPIO_Port, ODR) |= LED_Pin; // Set LED high
     } else {
