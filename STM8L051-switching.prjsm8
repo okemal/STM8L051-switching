@@ -29,7 +29,7 @@ Cmd=castm8
 UserFlags=
 Extensions=.s
 [cxstm8]
-Cmd=cxstm8 -v  +debug +modsl0
+Cmd=cxstm8 -v +debug +modsl0 +warn
 UserFlags=
 Extensions=.c
 [Librarian]

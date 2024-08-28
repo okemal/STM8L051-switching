@@ -98,8 +98,8 @@ void ADCInit(void) {
   // Turn AD on
   ADC1_CR1 |= ADC1_CR1_ADON;
 
-  // Delay needed (longer than wake-up, shorter than idle)
-  simpleDelay(1000UL);
+  // Delay needed (longer than wake-up(3us), shorter than idle(20ms at 70C))
+  delayms(1);
 }
 
 /*
@@ -115,12 +115,10 @@ void simpleDelay(uint32_t count) {
  * Use TIM2 to generate a delay.
  */
 void delayms(uint16_t ms) {
-  // Assuming a clock of 16 MHz, and a delay of 1 ms
-
   // (Clock / Prescaler) * ms
   uint16_t timer_value = (16000 / 16) * ms;
 
-  // Prescale
+  // Prescale ([2,1,0] bits are 100 for 2^4=16)
   TIM2_PSCR |= 4;
 
   // Set Auto-Reload Register value

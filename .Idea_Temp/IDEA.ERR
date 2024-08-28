@@ -1,0 +1,10 @@
+#warning cpstm8 main.c:36(41) value out of range
+#warning cpstm8 main.c:52(39) value out of range
+#warning cpstm8 main.c:82(37) value out of range
+#warning cpstm8 main.c:83(35) value out of range
+#warning cpstm8 main.c:84(35) value out of range
+#warning cpstm8 main.c:85(35) value out of range
+#warning cpstm8 main.c:125(31) truncating assignment
+#warning cpstm8 main.c:126(33) truncating assignment
+#warning cpstm8 main.c:134(15) value out of range
+#warning cpstm8 main.c:137(15) value out of range
