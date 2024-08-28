@@ -1,12 +1,15 @@
+/* main.c */
 #include "main.h"
 
 #include <stdint.h>
 
+// Function prototypes
 void systemClockInit(void);
 void GPIOInit(void);
 void ADCInit(void);
 void simpleDelay(uint32_t count);
 
+// Value from ADC 0-4095 for 12-bit res.(default)
 uint16_t adc_val;
 
 void main(void) {
@@ -14,6 +17,7 @@ void main(void) {
   GPIOInit();
   ADCInit();
 
+  // Infinite loop
   for (;;) {
     // Start ADC
     ADC1_CR1 |= ADC1_CR1_START;
@@ -23,7 +27,7 @@ void main(void) {
       simpleDelay(1);
 
     // Read result
-    adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment
+    adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment(?)
 
     // Check if tilt switch is on
     if (PORT(TILT_SWITCH_GPIO_Port, IDR) & TILT_SWITCH_Pin) {
