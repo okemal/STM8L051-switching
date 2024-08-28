@@ -39,6 +39,9 @@ void systemClockInit(void) {
   CLK_DIVR = 0x00;
 }
 
+/*
+ * Initialization function for the GPIO.
+ */
 void GPIOInit(void) {
   // Set TILT_SWITCH as input
   PORT(TILT_SWITCH_GPIO_Port, DDR) &= ~TILT_SWITCH_Pin;
