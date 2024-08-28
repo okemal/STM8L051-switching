@@ -27,12 +27,6 @@
 #define TILT_SWITCH_Pin PIN1
 #define TILT_SWITCH_GPIO_Port PC
 
-#define GATE_DRIVER_0_Pin PIN6
-#define GATE_DRIVER_0_GPIO_Port PB
-
-#define GATE_DRIVER_1_Pin PIN5
-#define GATE_DRIVER_1_GPIO_Port PB
-
 // ADC_CR1
 #define ADC1_CR1_OVERIE (1 << 7)
 #define ADC1_CR1_AWDIE (1 << 4)
