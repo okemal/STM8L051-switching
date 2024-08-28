@@ -74,6 +74,13 @@ void GPIOInit(void) {
  * Initialization function for the ADC.
  */
 void ADCInit(void) {
+  // Select channel 22
+  ADC1_CR3 |= 22;
+
+  // Sampling time (192 cycles)
+  ADC1_CR2 |= 6;
+
+  // Turn AD on
   ADC1_CR1 |= ADC1_CR1_ADON;
 
   // Delay needed (longer than wake-up, shorter than idle)
