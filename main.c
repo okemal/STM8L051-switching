@@ -8,6 +8,7 @@ void systemClockInit(void);
 void GPIOInit(void);
 void ADCInit(void);
 void simpleDelay(uint32_t count);
+void delayms(uint16_t ms);
 
 // Value from ADC 0-4095 for 12-bit res.(default)
 uint16_t adc_val;
@@ -23,8 +24,7 @@ void main(void) {
     ADC1_CR1 |= ADC1_CR1_START;
 
     // Wait for end of conversion
-    while (!(ADC1_SR & ADC1_SR_EOC))
-      simpleDelay(1);
+    while (!(ADC1_SR & ADC1_SR_EOC));
 
     // Read result
     adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment(?)
@@ -98,4 +98,29 @@ void simpleDelay(uint32_t count) {
   while (count--) {
     __asm("nop");
   }
+}
+
+/*
+ * Use TIM2 to generate a delay.
+ */
+void delayms(uint16_t ms) {
+    // Assuming a clock of 16 MHz, and a delay of 1 ms
+
+    // (Clock / Prescaler) * ms
+    uint16_t timer_value = (16000 / 16) * ms;
+    
+    // Prescale
+    TIM2_PSCR |= 4;
+
+    // Set Auto-Reload Register value
+    TIM2_ARRH = (uint8_t)(timer_value << 8);
+    TIM2_ARRL = (uint8_t)timer_value;
+
+    // Start Timer
+    TIM2_CR1 |= TIM2_CR1_CEN;
+
+    // Wait for update flag
+    while (!(TIM2_SR1 & TIM2_SR1_UIF));
+    TIM2_SR1 &= ~TIM2_SR1_UIF; // Clear update flag
+    TIM2_CR1 &= ~TIM2_CR1_CEN; // Stop Timer
 }

@@ -52,4 +52,13 @@
 #define ADC1_TRIGR1_TSON (1 << 5)
 #define ADC1_TRIGR1_VREFINTON (1 << 4)
 
+// TIM2_CR1
+#define TIM2_CR1_CEN (1 << 0)
+
+// TIM2_IER
+#define TIM2_IER_UIE (1 << 0)
+
+// TIM2_SR1
+#define TIM2_SR1_UIF (1 << 0)
+
 #endif
