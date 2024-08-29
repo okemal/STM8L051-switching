@@ -13,7 +13,7 @@ void ADCInit(void);
 void simpleDelay(uint32_t count);
 void delayms(uint16_t ms);
 uint8_t invertMotor(uint8_t direction);
-void startMotor(void);
+void startMotor(uint8_t direction);
 void stopMotor(void);
 
 // Value from ADC 0-4095 for 12-bit res.(default)
@@ -38,7 +38,7 @@ void main(void) {
   ADCInit();
   
   // Start motor
-  startMotor();
+  startMotor(direction);
 
   // Infinite loop
   for (;;) {
@@ -65,6 +65,13 @@ void main(void) {
       PORT(BUZZER_GPIO_Port, ODR) &= ~BUZZER_Pin;
     } else if (overcurrent_count > max_invert) {
       // Too many instances, stop the motor
+      stopMotor();
+    }
+    
+    // Use tilt switch to turn the motor on and off(maybe needs debouncing)
+    if (PORT(TILT_SWITCH_GPIO_Port, IDR) & TILT_SWITCH_Pin) {
+      startMotor(direction);
+    } else {
       stopMotor();
     }
   }
@@ -190,16 +197,20 @@ uint8_t invertMotor(uint8_t direction) {
 }
 
 /* 
- * Uses TRIAC GPIO pins to start motor. This function is intended to be run
- * once.
+ * Uses TRIAC GPIO pins to start motor in the given direction.
  */
-void startMotor(void) {
-  PORT(TRIAC_1_GPIO_Port, ODR) |= TRIAC_1_Pin;
+void startMotor(uint8_t direction) {
+  if (direction) {
+    PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
+    PORT(TRIAC_1_GPIO_Port, ODR) |= TRIAC_1_Pin;
+  } else {
+    PORT(TRIAC_0_GPIO_Port, ODR) |= TRIAC_0_Pin;
+    PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
+  }
 }
 
 /* 
- * Uses TRIAC GPIO pin to invert direction of the motor and returns current
- * direction if successful.
+ * Uses TRIAC GPIO pins to stop the motor.
  */
 void stopMotor(void) {
   PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
