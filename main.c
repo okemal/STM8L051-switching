@@ -1,4 +1,7 @@
 /* main.c */
+/* Tried to explain most things, consult the datasheet and the reference manual
+ * provided under the /info folder. For definitions check main.h file.
+ */
 #include "main.h"
 
 #include <stdint.h>
@@ -12,6 +15,13 @@ void delayms(uint16_t ms);
 
 // Value from ADC 0-4095 for 12-bit res.(default)
 uint16_t adc_val;
+
+// Current limit(as read by the ADC)
+const uint16_t limit = 4095; // 2^12 - 1 for 12-bit res.(default)
+
+// May need such a variable for determining whether the motor should invert
+// or stop
+uint8_t overcurrent_count = 0;
 
 void main(void) {
   systemClockInit();
@@ -29,13 +39,9 @@ void main(void) {
     // Read result
     adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment(?)
 
-    // Check if tilt switch is on
-    if (PORT(TILT_SWITCH_GPIO_Port, IDR) & TILT_SWITCH_Pin) {
-      PORT(LED_GREEN_GPIO_Port, ODR) |= LED_GREEN_Pin; // Set LED high
-    } else {
-      PORT(LED_GREEN_GPIO_Port, ODR) &= ~LED_GREEN_Pin; // Set LED low
+    // Check if current passes the threshold
+    if (adc_val >= limit) {
     }
-    simpleDelay(1000UL);
   }
 }
 
@@ -103,7 +109,7 @@ void ADCInit(void) {
 }
 
 /*
- * Very crude delay function.
+ * Very crude delay function. Don't use in the actual build.
  */
 void simpleDelay(uint32_t count) {
   while (count--) {
@@ -112,10 +118,13 @@ void simpleDelay(uint32_t count) {
 }
 
 /*
- * Use TIM2 to generate a delay.
+ * Use TIM2 to generate a delay. Does ms right now but a similar function can
+ * be written to do delay in us. If so, adjust timer value. If it goes out of
+ * range, use the prescaler to adjust. Consult clock configuration under /info
+ * folder for a better understanding.
  */
 void delayms(uint16_t ms) {
-  // (Clock / Prescaler) * ms
+  // (Clock(kHz) / Prescaler) * ms
   uint16_t timer_value = (16000 / 16) * ms;
 
   // Prescale ([2,1,0] bits are 100 for 2^4=16)
