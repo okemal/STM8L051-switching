@@ -11,7 +11,7 @@ This project is designed for the STM8L051F3 microcontroller. It drives two TRIAC
 - **Tilt Switch Input**: Monitors a tilt switch to determine whether to turn TRIACs on or off.
 - **Efficient MCU Utilization**: Designed specifically for the STM8L051F3 microcontroller.
 
-## Pinout
+## Pins Configuration
 
 | Pin Nb | PINs | FUNCTIONs   | LABELs         |
 |--------|------|-------------|----------------|
