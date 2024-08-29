@@ -1,5 +1,5 @@
 REM       COMMAND FILE BUILT BY IDEA 
-REM       Thu Aug 29 08:14:10 2024
+REM       Thu Aug 29 09:03:19 2024
 REM
 cxstm8 -v +debug +modsl0 +warn "stm8l051-switching_vector.c"
 cxstm8 -v +debug +modsl0 +warn "main.c"

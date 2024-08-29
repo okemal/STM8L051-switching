@@ -12,6 +12,9 @@ void GPIOInit(void);
 void ADCInit(void);
 void simpleDelay(uint32_t count);
 void delayms(uint16_t ms);
+uint8_t invertMotor(uint8_t direction);
+void startMotor(void);
+void stopMotor(void);
 
 // Value from ADC 0-4095 for 12-bit res.(default)
 uint16_t adc_val;
@@ -23,10 +26,19 @@ const uint16_t limit = 4095; // 2^12 - 1 for 12-bit res.(default)
 // or stop
 uint8_t overcurrent_count = 0;
 
+// Maximum number of inversions
+const uint8_t max_invert = 2;
+
+// May need a variable for passing the current direction to motor functions
+uint8_t direction = 0;
+
 void main(void) {
   systemClockInit();
   GPIOInit();
   ADCInit();
+  
+  // Start motor
+  startMotor();
 
   // Infinite loop
   for (;;) {
@@ -39,8 +51,21 @@ void main(void) {
     // Read result
     adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment(?)
 
-    // Check if current passes the threshold
-    if (adc_val >= limit) {
+    // Check if current passes the threshold and the motor can be inverted
+    if (adc_val >= limit && overcurrent_count <= max_invert) {
+      // Invert direction
+      direction = invertMotor(direction);
+      
+      // Record instance of overcurrent
+      overcurrent_count++;
+      
+      // Turns the buzzer on for half a second
+      PORT(BUZZER_GPIO_Port, ODR) |= BUZZER_Pin;
+      delayms(500);
+      PORT(BUZZER_GPIO_Port, ODR) &= ~BUZZER_Pin;
+    } else if (overcurrent_count > max_invert) {
+      // Too many instances, stop the motor
+      stopMotor();
     }
   }
 }
@@ -87,6 +112,7 @@ void GPIOInit(void) {
   // Initialize outputs to low
   PORT(LED_GREEN_GPIO_Port, ODR) &= ~LED_GREEN_Pin;
   PORT(LED_RED_GPIO_Port, ODR) &= ~LED_RED_Pin;
+  PORT(BUZZER_GPIO_Port, ODR) &= ~BUZZER_Pin;
   PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
   PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
 }
@@ -144,4 +170,38 @@ void delayms(uint16_t ms) {
 
   // Stop Timer
   TIM2_CR1 &= ~TIM2_CR1_CEN;
+}
+
+/* 
+ * Uses TRIAC GPIO pin to invert direction of the motor and returns current
+ * direction if successful.
+ */
+uint8_t invertMotor(uint8_t direction) {
+  if (direction) {
+    PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
+    PORT(TRIAC_1_GPIO_Port, ODR) |= TRIAC_1_Pin;
+    direction = 0;
+  } else {
+    PORT(TRIAC_0_GPIO_Port, ODR) |= TRIAC_0_Pin;
+    PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
+    direction = 1;
+  }
+  return direction;
+}
+
+/* 
+ * Uses TRIAC GPIO pins to start motor. This function is intended to be run
+ * once.
+ */
+void startMotor(void) {
+  PORT(TRIAC_1_GPIO_Port, ODR) |= TRIAC_1_Pin;
+}
+
+/* 
+ * Uses TRIAC GPIO pin to invert direction of the motor and returns current
+ * direction if successful.
+ */
+void stopMotor(void) {
+  PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
+  PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
 }
