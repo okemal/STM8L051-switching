@@ -61,6 +61,9 @@
 #define ADC1_TRIGR1_TSON (1 << 5)
 #define ADC1_TRIGR1_VREFINTON (1 << 4)
 
+// ADC
+#define CYCLES_192 6
+
 // TIM2_CR1
 #define TIM2_CR1_CEN (1 << 0)
 
@@ -75,8 +78,5 @@
 #define TIM_PRSC_4 2
 #define TIM_PRSC_8 3
 #define TIM_PRSC_16 4
-
-// ADC
-#define CYCLES_192 6
 
 #endif
