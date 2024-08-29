@@ -18,6 +18,9 @@
 #define PIN7 (1 << 7)
 
 // Named pins and their ports
+#define FAULT_ENABLE_Pin PIN0
+#define FAULT_ENABLE_GPIO_Port PB
+
 #define BUZZER_Pin PIN1
 #define BUZZER_GPIO_Port PB
 

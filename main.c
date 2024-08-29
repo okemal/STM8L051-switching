@@ -87,6 +87,7 @@ void systemClockInit(void) {
  */
 void GPIOInit(void) {
   // Set output pins
+  PORT(FAULT_ENABLE_GPIO_Port, DDR) |= FAULT_ENABLE_Pin;
   PORT(LED_GREEN_GPIO_Port, DDR) |= LED_GREEN_Pin;
   PORT(LED_RED_GPIO_Port, DDR) |= LED_RED_Pin;
   PORT(BUZZER_GPIO_Port, DDR) |= BUZZER_Pin;
@@ -96,8 +97,10 @@ void GPIOInit(void) {
   // Set input pin
   PORT(TILT_SWITCH_GPIO_Port, DDR) &= ~TILT_SWITCH_Pin;
 
-  // Enable pull-up resistor
+  // Enable/disable pull-up resistor for inputs
+  // Enable/disable push-pull for outputs
   PORT(TILT_SWITCH_GPIO_Port, CR1) |= TILT_SWITCH_Pin;
+  PORT(FAULT_ENABLE_GPIO_Port, CR1) |= FAULT_ENABLE_Pin;
   PORT(LED_GREEN_GPIO_Port, CR1) |= LED_GREEN_Pin;
   PORT(LED_RED_GPIO_Port, CR1) |= LED_RED_Pin;
   PORT(BUZZER_GPIO_Port, CR1) |= BUZZER_Pin;
