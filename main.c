@@ -45,7 +45,7 @@ void main(void) {
     // Start ADC
     ADC1_CR1 |= ADC1_CR1_START;
 
-    // Wait for end of conversion
+    // Wait for end of conversion (may need a timeout)
     while (!(ADC1_SR & ADC1_SR_EOC));
 
     // Read result

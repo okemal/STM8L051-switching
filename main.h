@@ -37,43 +37,52 @@
 #define TILT_SWITCH_GPIO_Port PC
 
 // ADC1_CR1
-#define ADC1_CR1_OVERIE (1 << 7)
-#define ADC1_CR1_AWDIE (1 << 4)
-#define ADC1_CR1_EOCIE (1 << 3)
-#define ADC1_CR1_CONT (1 << 2)
-#define ADC1_CR1_START (1 << 1)
-#define ADC1_CR1_ADON (1 << 0)
+#define ADC1_CR1_OVERIE (1 << 7) // Overrun interrupt enable
+#define ADC1_CR1_AWDIE (1 << 4)  // Analog watchdog interrupt enable
+#define ADC1_CR1_EOCIE (1 << 3)  // Interrupt enable for EOC
+#define ADC1_CR1_CONT (1 << 2)   // Continuous conversion
+#define ADC1_CR1_START (1 << 1)  // Conversion start
+#define ADC1_CR1_ADON (1 << 0)   // A/D converter ON / OFF
 
 // ADC1_CR2
-#define ADC1_CR2_PRESC (1 << 7)
+#define ADC1_CR2_PRESC (1 << 7) // Clock prescaler
 
 // ADC1_SR
-#define ADC1_SR_OVER (1 << 2)
-#define ADC1_SR_AWD (1 << 1)
-#define ADC1_SR_EOC (1 << 0)
+#define ADC1_SR_OVER (1 << 2) // Overrun flag
+#define ADC1_SR_AWD (1 << 1)  // Analog watchdog flag
+#define ADC1_SR_EOC (1 << 0)  // End of conversion
 
 // ADC1_SQR1
-#define ADC1_SQR1_DMAOFF (1 << 7)
-#define ADC1_SQR1_CHSEL_STS (1 << 5)
-#define ADC1_SQR1_CHSEL_SVREFINT (1 << 4)
+#define ADC1_SQR1_DMAOFF (1 << 7)    // DMA disable for a single conversion
+#define ADC1_SQR1_CHSEL_STS (1 << 5) // Selection of channel TS for scan
+#define ADC1_SQR1_CHSEL_SVREFINT                                               \
+  (1 << 4) // Selection of channel Vrefint for scan
 
 // ADC1_TRIGR1
-#define ADC1_TRIGR1_TSON (1 << 5)
-#define ADC1_TRIGR1_VREFINTON (1 << 4)
+#define ADC1_TRIGR1_TSON                                                       \
+  (1 << 5) // Temperature sensor internal reference voltage enable
+#define ADC1_TRIGR1_VREFINTON (1 << 4) // Internal reference voltage enable
 
-// ADC
+// ADC sampling times
+#define CYCLES_4 0
+#define CYCLES_9 1
+#define CYCLES_16 2
+#define CYCLES_24 3
+#define CYCLES_48 4
+#define CYCLES_96 5
 #define CYCLES_192 6
+#define CYCLES_384 7
 
 // TIM2_CR1
-#define TIM2_CR1_CEN (1 << 0)
+#define TIM2_CR1_CEN (1 << 0) // Counter enable
 
 // TIM2_IER
-#define TIM2_IER_UIE (1 << 0)
+#define TIM2_IER_UIE (1 << 0) // Update interrupt enable
 
 // TIM2_SR1
-#define TIM2_SR1_UIF (1 << 0)
+#define TIM2_SR1_UIF (1 << 0) // Update interrupt flag
 
-// TIM
+// TIM prescaler divisions
 #define TIM_PRSC_2 1
 #define TIM_PRSC_4 2
 #define TIM_PRSC_8 3

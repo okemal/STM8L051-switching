@@ -1,17 +1,17 @@
-#warning cpstm8 main.c:66(38) value out of range
-#warning cpstm8 main.c:98(39) value out of range
-#warning cpstm8 main.c:109(37) value out of range
-#warning cpstm8 main.c:110(35) value out of range
-#warning cpstm8 main.c:111(34) value out of range
+#warning cpstm8 main.c:65(38) value out of range
+#warning cpstm8 main.c:97(39) value out of range
+#warning cpstm8 main.c:108(37) value out of range
+#warning cpstm8 main.c:109(35) value out of range
+#warning cpstm8 main.c:110(34) value out of range
+#warning cpstm8 main.c:111(35) value out of range
 #warning cpstm8 main.c:112(35) value out of range
-#warning cpstm8 main.c:113(35) value out of range
-#warning cpstm8 main.c:147(31) truncating assignment
-#warning cpstm8 main.c:148(33) truncating assignment
-#warning cpstm8 main.c:157(15) value out of range
-#warning cpstm8 main.c:160(15) value out of range
-#warning cpstm8 main.c:169(37) value out of range
-#warning cpstm8 main.c:174(37) value out of range
-#warning cpstm8 main.c:185(37) value out of range
-#warning cpstm8 main.c:189(37) value out of range
-#warning cpstm8 main.c:197(35) value out of range
-#warning cpstm8 main.c:198(35) value out of range
+#warning cpstm8 main.c:146(31) truncating assignment
+#warning cpstm8 main.c:147(33) truncating assignment
+#warning cpstm8 main.c:155(15) value out of range
+#warning cpstm8 main.c:158(15) value out of range
+#warning cpstm8 main.c:167(37) value out of range
+#warning cpstm8 main.c:172(37) value out of range
+#warning cpstm8 main.c:183(37) value out of range
+#warning cpstm8 main.c:187(37) value out of range
+#warning cpstm8 main.c:195(35) value out of range
+#warning cpstm8 main.c:196(35) value out of range
