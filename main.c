@@ -6,28 +6,28 @@
 
 #include <stdint.h>
 
+#define ADC_CHANNEL 22
+#define DEBOUNCE_DELAY_MS 10
+#define CURRENT_LIMIT 4095 // 2^12 - 1 for 12-bit res.(default)
+#define MAX_INVERT 2       // Maximum number of inversions
+#define BUZZER_DELAY_MS 500
+
 // Function prototypes
 void systemClockInit(void);
 void GPIOInit(void);
 void ADCInit(void);
-void simpleDelay(uint32_t count);
 void delayms(uint16_t ms);
 uint8_t invertMotor(uint8_t direction);
 void startMotor(uint8_t direction);
 void stopMotor(void);
+uint8_t isTiltSwitchActivated(void);
 
 // Value from ADC 0-4095 for 12-bit res.(default)
 uint16_t adc_val;
 
-// Current limit(as read by the ADC)
-const uint16_t limit = 4095; // 2^12 - 1 for 12-bit res.(default)
-
 // May need such a variable for determining whether the motor should invert
 // or stop
 uint8_t overcurrent_count = 0;
-
-// Maximum number of inversions
-const uint8_t max_invert = 2;
 
 // May need a variable for passing the current direction to motor functions
 uint8_t direction = 0;
@@ -52,24 +52,24 @@ void main(void) {
     adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment(?)
 
     // Check if current passes the threshold and the motor can be inverted
-    if (adc_val >= limit && overcurrent_count <= max_invert) {
+    if (adc_val >= CURRENT_LIMIT && overcurrent_count <= MAX_INVERT) {
       // Invert direction
       direction = invertMotor(direction);
 
       // Record instance of overcurrent
       overcurrent_count++;
 
-      // Turns the buzzer on for half a second
+      // Turns the buzzer on for some time
       PORT(BUZZER_GPIO_Port, ODR) |= BUZZER_Pin;
-      delayms(500);
+      delayms(BUZZER_DELAY_MS);
       PORT(BUZZER_GPIO_Port, ODR) &= ~BUZZER_Pin;
-    } else if (overcurrent_count > max_invert) {
+    } else if (overcurrent_count > MAX_INVERT) {
       // Too many instances, stop the motor
       stopMotor();
     }
 
-    // Use tilt switch to turn the motor on and off(maybe needs debouncing)
-    if (PORT(TILT_SWITCH_GPIO_Port, IDR) & TILT_SWITCH_Pin) {
+    // Use tilt switch to turn the motor on and off
+    if (isTiltSwitchActivated()) {
       startMotor(direction);
     } else {
       stopMotor();
@@ -86,34 +86,22 @@ void systemClockInit(void) {
  * Initialization function for the GPIO.
  */
 void GPIOInit(void) {
-  // Set TILT_SWITCH as input
+  // Set output pins
+  PORT(LED_GREEN_GPIO_Port, DDR) |= LED_GREEN_Pin;
+  PORT(LED_RED_GPIO_Port, DDR) |= LED_RED_Pin;
+  PORT(BUZZER_GPIO_Port, DDR) |= BUZZER_Pin;
+  PORT(TRIAC_0_GPIO_Port, DDR) |= TRIAC_0_Pin;
+  PORT(TRIAC_1_GPIO_Port, DDR) |= TRIAC_1_Pin;
+
+  // Set input pin
   PORT(TILT_SWITCH_GPIO_Port, DDR) &= ~TILT_SWITCH_Pin;
+
   // Enable pull-up resistor
   PORT(TILT_SWITCH_GPIO_Port, CR1) |= TILT_SWITCH_Pin;
-
-  // Set LED_GREEN as output
-  PORT(LED_GREEN_GPIO_Port, DDR) |= LED_GREEN_Pin;
-  // Set LED_GREEN as "push-pull"
   PORT(LED_GREEN_GPIO_Port, CR1) |= LED_GREEN_Pin;
-
-  // Set LED_RED as output
-  PORT(LED_RED_GPIO_Port, DDR) |= LED_RED_Pin;
-  // Set LED_RED as "push-pull"
   PORT(LED_RED_GPIO_Port, CR1) |= LED_RED_Pin;
-
-  // Set BUZZER as output
-  PORT(BUZZER_GPIO_Port, DDR) |= BUZZER_Pin;
-  // Set BUZZER as "push-pull"
   PORT(BUZZER_GPIO_Port, CR1) |= BUZZER_Pin;
-
-  // Set TRIAC_0 as output
-  PORT(TRIAC_0_GPIO_Port, DDR) |= TRIAC_0_Pin;
-  // Set TRIAC_0 as "push-pull"
   PORT(TRIAC_0_GPIO_Port, CR1) |= TRIAC_0_Pin;
-
-  // Set TRIAC_1 as output
-  PORT(TRIAC_1_GPIO_Port, DDR) |= TRIAC_1_Pin;
-  // Set TRIAC_1 as "push-pull"
   PORT(TRIAC_1_GPIO_Port, CR1) |= TRIAC_1_Pin;
 
   // Initialize outputs to low
@@ -128,26 +116,17 @@ void GPIOInit(void) {
  * Initialization function for the ADC.
  */
 void ADCInit(void) {
-  // Select channel 22
-  ADC1_CR3 |= 22;
+  // Select channel
+  ADC1_CR3 |= ADC_CHANNEL;
 
-  // Sampling time (192 cycles)
-  ADC1_CR2 |= 6;
+  // Select sampling time
+  ADC1_CR2 |= CYCLES_192;
 
   // Turn AD on
   ADC1_CR1 |= ADC1_CR1_ADON;
 
   // Delay needed (longer than wake-up(3us), shorter than idle(20ms at 70C))
   delayms(1);
-}
-
-/*
- * Very crude delay function. Don't use in the actual build.
- */
-void simpleDelay(uint32_t count) {
-  while (count--) {
-    __asm("nop");
-  }
 }
 
 /*
@@ -160,8 +139,8 @@ void delayms(uint16_t ms) {
   // (Clock(kHz) / Prescaler) * ms
   uint16_t timer_value = (16000 / 16) * ms;
 
-  // Prescale ([2,1,0] bits are 100 for 2^4=16)
-  TIM2_PSCR |= 4;
+  // Prescale
+  TIM2_PSCR |= TIM_PRSC_16;
 
   // Set Auto-Reload Register value
   TIM2_ARRH = (timer_value >> 8);
@@ -215,4 +194,14 @@ void startMotor(uint8_t direction) {
 void stopMotor(void) {
   PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
   PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
+}
+
+uint8_t isTiltSwitchActivated(void) {
+  if (PORT(TILT_SWITCH_GPIO_Port, IDR) & TILT_SWITCH_Pin) {
+    delayms(DEBOUNCE_DELAY_MS); // Debounce delay
+    if (PORT(TILT_SWITCH_GPIO_Port, IDR) & TILT_SWITCH_Pin) {
+      return 1;
+    }
+  }
+  return 0;
 }

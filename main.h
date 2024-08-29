@@ -70,4 +70,13 @@
 // TIM2_SR1
 #define TIM2_SR1_UIF (1 << 0)
 
+// TIM
+#define TIM_PRSC_2 1
+#define TIM_PRSC_4 2
+#define TIM_PRSC_8 3
+#define TIM_PRSC_16 4
+
+// ADC
+#define CYCLES_192 6
+
 #endif
