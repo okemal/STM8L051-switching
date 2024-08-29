@@ -36,7 +36,7 @@ void main(void) {
   systemClockInit();
   GPIOInit();
   ADCInit();
-  
+
   // Start motor
   startMotor(direction);
 
@@ -55,10 +55,10 @@ void main(void) {
     if (adc_val >= limit && overcurrent_count <= max_invert) {
       // Invert direction
       direction = invertMotor(direction);
-      
+
       // Record instance of overcurrent
       overcurrent_count++;
-      
+
       // Turns the buzzer on for half a second
       PORT(BUZZER_GPIO_Port, ODR) |= BUZZER_Pin;
       delayms(500);
@@ -67,7 +67,7 @@ void main(void) {
       // Too many instances, stop the motor
       stopMotor();
     }
-    
+
     // Use tilt switch to turn the motor on and off(maybe needs debouncing)
     if (PORT(TILT_SWITCH_GPIO_Port, IDR) & TILT_SWITCH_Pin) {
       startMotor(direction);
@@ -179,7 +179,7 @@ void delayms(uint16_t ms) {
   TIM2_CR1 &= ~TIM2_CR1_CEN;
 }
 
-/* 
+/*
  * Uses TRIAC GPIO pin to invert direction of the motor and returns current
  * direction if successful.
  */
@@ -196,7 +196,7 @@ uint8_t invertMotor(uint8_t direction) {
   return direction;
 }
 
-/* 
+/*
  * Uses TRIAC GPIO pins to start motor in the given direction.
  */
 void startMotor(uint8_t direction) {
@@ -209,7 +209,7 @@ void startMotor(uint8_t direction) {
   }
 }
 
-/* 
+/*
  * Uses TRIAC GPIO pins to stop the motor.
  */
 void stopMotor(void) {

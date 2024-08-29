@@ -1,3 +1,4 @@
+/* main.h */
 #ifndef __MAIN_H
 #define __MAIN_H
 
@@ -6,6 +7,7 @@
 #define CONCAT(a, b) a##_##b
 #define PORT(a, b) CONCAT(a, b)
 
+// Pins
 #define PIN0 (1 << 0)
 #define PIN1 (1 << 1)
 #define PIN2 (1 << 2)
@@ -15,6 +17,7 @@
 #define PIN6 (1 << 6)
 #define PIN7 (1 << 7)
 
+// Named pins and their ports
 #define BUZZER_Pin PIN1
 #define BUZZER_GPIO_Port PB
 
