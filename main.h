@@ -33,8 +33,8 @@
 #define TRIAC_0_Pin PIN0
 #define TRIAC_0_GPIO_Port PC
 
-#define TILT_SWITCH_Pin PIN1
-#define TILT_SWITCH_GPIO_Port PC
+#define TILT_SWITCH_Pin PIN6
+#define TILT_SWITCH_GPIO_Port PB
 
 // ADC1_CR1
 #define ADC1_CR1_OVERIE (1 << 7) // Overrun interrupt enable

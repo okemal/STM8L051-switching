@@ -20,9 +20,9 @@ This project is designed for the STM8L051F3 microcontroller. It drives two TRIAC
 | 12     | PB2  | ADC1_IN16   | CURRENT_SENSOR |
 | 13     | PB3  | GPIO_Output | LED_GREEN      |
 | 14     | PB4  | GPIO_Output | LED_RED        |
+| 16     | PB6  | GPIO_Input  | TILT_SWITCH    |
 | 17     | PB7  | GPIO_Output | TRIAC_1        |
 | 18     | PC0  | GPIO_Output | TRIAC_0        |
-| 19     | PC1  | GPIO_Input  | TILT_SWITCH    |
 
 ## Installation
 
