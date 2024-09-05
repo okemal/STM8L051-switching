@@ -6,7 +6,7 @@
 
 #include <stdint.h>
 
-#define ADC_CHANNEL 22
+#define ADC_CHANNEL 16
 #define DEBOUNCE_DELAY_MS 10
 #define CURRENT_LIMIT 4095 // 2^12 - 1 for 12-bit res.(default)
 #define MAX_INVERT 2       // Maximum number of inversions
@@ -88,7 +88,6 @@ void systemClockInit(void) {
  */
 void GPIOInit(void) {
   // Set output pins
-  PORT(FAULT_ENABLE_GPIO_Port, DDR) |= FAULT_ENABLE_Pin;
   PORT(LED_GREEN_GPIO_Port, DDR) |= LED_GREEN_Pin;
   PORT(LED_RED_GPIO_Port, DDR) |= LED_RED_Pin;
   PORT(BUZZER_GPIO_Port, DDR) |= BUZZER_Pin;
@@ -101,7 +100,6 @@ void GPIOInit(void) {
   // Enable/disable pull-up resistor for inputs
   // Enable/disable push-pull for outputs
   PORT(TILT_SWITCH_GPIO_Port, CR1) |= TILT_SWITCH_Pin;
-  PORT(FAULT_ENABLE_GPIO_Port, CR1) |= FAULT_ENABLE_Pin;
   PORT(LED_GREEN_GPIO_Port, CR1) |= LED_GREEN_Pin;
   PORT(LED_RED_GPIO_Port, CR1) |= LED_RED_Pin;
   PORT(BUZZER_GPIO_Port, CR1) |= BUZZER_Pin;
