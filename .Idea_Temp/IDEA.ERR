@@ -1,17 +1,17 @@
-#warning cpstm8 main.c:66(38) value out of range
+#warning cpstm8 main.c:69(38) value out of range
 #warning cpstm8 main.c:98(39) value out of range
 #warning cpstm8 main.c:110(37) value out of range
 #warning cpstm8 main.c:111(35) value out of range
 #warning cpstm8 main.c:112(34) value out of range
 #warning cpstm8 main.c:113(35) value out of range
 #warning cpstm8 main.c:114(35) value out of range
-#warning cpstm8 main.c:148(31) truncating assignment
-#warning cpstm8 main.c:149(33) truncating assignment
-#warning cpstm8 main.c:158(15) value out of range
-#warning cpstm8 main.c:161(15) value out of range
-#warning cpstm8 main.c:170(37) value out of range
-#warning cpstm8 main.c:175(37) value out of range
-#warning cpstm8 main.c:186(37) value out of range
+#warning cpstm8 main.c:149(31) truncating assignment
+#warning cpstm8 main.c:150(33) truncating assignment
+#warning cpstm8 main.c:159(15) value out of range
+#warning cpstm8 main.c:162(15) value out of range
+#warning cpstm8 main.c:171(37) value out of range
+#warning cpstm8 main.c:172(12) missing prototype
+#warning cpstm8 main.c:176(37) value out of range
+#warning cpstm8 main.c:177(12) missing prototype
 #warning cpstm8 main.c:190(37) value out of range
-#warning cpstm8 main.c:198(35) value out of range
-#warning cpstm8 main.c:199(35) value out of range
+#warning cpstm8 main.c:192(37) value out of range

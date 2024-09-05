@@ -10,7 +10,7 @@
 #define DEBOUNCE_DELAY_MS 10
 #define CURRENT_LIMIT 4095 // 2^12 - 1 for 12-bit res.(default)
 #define MAX_INVERT 2       // Maximum number of inversions
-#define BUZZER_DELAY_MS 500
+#define BUZZER_DELAY_MS 10000
 
 // Function prototypes
 void systemClockInit(void);
@@ -60,13 +60,13 @@ void main(void) {
       // Record instance of overcurrent
       overcurrent_count++;
 
+    } else if (overcurrent_count > MAX_INVERT) {
+      // Too many instances, stop the motor
+      stopMotor();
       // Turns the buzzer on for some time
       PORT(BUZZER_GPIO_Port, ODR) |= BUZZER_Pin;
       delayms(BUZZER_DELAY_MS);
       PORT(BUZZER_GPIO_Port, ODR) &= ~BUZZER_Pin;
-    } else if (overcurrent_count > MAX_INVERT) {
-      // Too many instances, stop the motor
-      stopMotor();
     }
 
     // Use tilt switch to turn the motor on and off
@@ -119,6 +119,7 @@ void GPIOInit(void) {
  */
 void ADCInit(void) {
   // Select channel
+  ADC1_CR3 &= 0xE0;
   ADC1_CR3 |= ADC_CHANNEL;
 
   // Select sampling time
@@ -167,12 +168,14 @@ void delayms(uint16_t ms) {
  */
 uint8_t invertMotor(uint8_t direction) {
   if (direction) {
-    PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
-    PORT(TRIAC_1_GPIO_Port, ODR) |= TRIAC_1_Pin;
+    PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
+    delay_ms(10);
+    PORT(TRIAC_0_GPIO_Port, ODR) |= TRIAC_0_Pin;
     direction = 0;
   } else {
-    PORT(TRIAC_0_GPIO_Port, ODR) |= TRIAC_0_Pin;
-    PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
+    PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
+    delay_ms(10);
+    PORT(TRIAC_1_GPIO_Port, ODR) |= TRIAC_1_Pin;
     direction = 1;
   }
   return direction;
@@ -183,11 +186,11 @@ uint8_t invertMotor(uint8_t direction) {
  */
 void startMotor(uint8_t direction) {
   if (direction) {
-    PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
-    PORT(TRIAC_1_GPIO_Port, ODR) |= TRIAC_1_Pin;
-  } else {
     PORT(TRIAC_0_GPIO_Port, ODR) |= TRIAC_0_Pin;
     PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
+  } else {
+    PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
+    PORT(TRIAC_1_GPIO_Port, ODR) |= TRIAC_1_Pin;
   }
 }
 
@@ -195,8 +198,8 @@ void startMotor(uint8_t direction) {
  * Uses TRIAC GPIO pins to stop the motor.
  */
 void stopMotor(void) {
-  PORT(TRIAC_0_GPIO_Port, ODR) &= ~TRIAC_0_Pin;
-  PORT(TRIAC_1_GPIO_Port, ODR) &= ~TRIAC_1_Pin;
+  PORT(TRIAC_0_GPIO_Port, ODR) |= TRIAC_0_Pin;
+  PORT(TRIAC_1_GPIO_Port, ODR) |= TRIAC_1_Pin;
 }
 
 uint8_t isTiltSwitchActivated(void) {
