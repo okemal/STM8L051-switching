@@ -17,13 +17,13 @@ This project is designed for the STM8L051F3 microcontroller. It drives two TRIAC
 |--------|------|-------------|----------------|
 | 3      | PA0  | SYS_SWIM    | SWIM           |
 | 9      | PD0  | ADC1_IN22   | CURRENT_SENSOR |
-| 10	   | PB0	 | GPIO_Output | FAULT_ENABLE   |
-| 11	   | PB1	 | GPIO_Output | BUZZER         |
-| 13	   | PB3	 | GPIO_Output | LED_GREEN      |
-| 14	   | PB4	 | GPIO_Output | LED_RED        |
-| 17	   | PB7	 | GPIO_Output | TRIAC_1        |
-| 18	   | PC0	 | GPIO_Output | TRIAC_0        |
-| 19     | PC1	 | GPIO_Input  | TILT_SWITCH    |
+| 10     | PB0  | GPIO_Output | FAULT_ENABLE   |
+| 11     | PB1  | GPIO_Output | BUZZER         |
+| 13     | PB3  | GPIO_Output | LED_GREEN      |
+| 14     | PB4  | GPIO_Output | LED_RED        |
+| 17     | PB7  | GPIO_Output | TRIAC_1        |
+| 18     | PC0  | GPIO_Output | TRIAC_0        |
+| 19     | PC1  | GPIO_Input  | TILT_SWITCH    |
 
 ## Installation
 
@@ -35,7 +35,9 @@ To get started with this project, you will need:
 ### Steps:
 
 1. **Clone the Repository**:
+
    ```bash
    git clone https://github.com/okemal/STM8L051-switching.git
    ```
+
 2. **Load the project file in IdeaSTM8**: Use the .prjsm8 file in the root folder. In IdeaSTM8 it's Project-->Load-->STM8L051-switching.prjsm8
