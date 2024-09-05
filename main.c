@@ -46,7 +46,8 @@ void main(void) {
     ADC1_CR1 |= ADC1_CR1_START;
 
     // Wait for end of conversion (may need a timeout)
-    while (!(ADC1_SR & ADC1_SR_EOC));
+    while (!(ADC1_SR & ADC1_SR_EOC))
+      ;
 
     // Read result
     adc_val = (ADC1_DRH << 8) | ADC1_DRL; // Depends on alignment(?)
@@ -153,7 +154,8 @@ void delayms(uint16_t ms) {
   TIM2_CR1 |= TIM2_CR1_CEN;
 
   // Wait for update flag
-  while (!(TIM2_SR1 & TIM2_SR1_UIF));
+  while (!(TIM2_SR1 & TIM2_SR1_UIF))
+    ;
   // Clear update flag
   TIM2_SR1 &= ~TIM2_SR1_UIF;
 
