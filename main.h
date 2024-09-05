@@ -18,7 +18,7 @@
 #define PIN7 (1 << 7)
 
 // Named pins and their ports
-#define BUZZER_Pin PIN1
+#define BUZZER_Pin PIN2
 #define BUZZER_GPIO_Port PB
 
 #define LED_GREEN_Pin PIN3
