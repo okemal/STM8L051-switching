@@ -21,11 +21,11 @@
 #define BUZZER_Pin PIN2
 #define BUZZER_GPIO_Port PB
 
-#define LED_GREEN_Pin PIN3
+#define LED_GREEN_Pin PIN0
 #define LED_GREEN_GPIO_Port PB
 
-#define LED_RED_Pin PIN4
-#define LED_RED_GPIO_Port PB
+#define LED_RED_Pin PIN0
+#define LED_RED_GPIO_Port PD
 
 #define TRIAC_1_Pin PIN7
 #define TRIAC_1_GPIO_Port PB

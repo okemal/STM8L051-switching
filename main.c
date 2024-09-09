@@ -6,7 +6,7 @@
 
 #include <stdint.h>
 
-#define ADC_CHANNEL 17
+#define ADC_CHANNEL 14
 #define DEBOUNCE_DELAY_MS 10
 #define CURRENT_LIMIT 4095 // 2^12 - 1 for 12-bit res.(default)
 #define MAX_INVERT 2       // Maximum number of inversions

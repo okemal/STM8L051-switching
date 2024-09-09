@@ -16,10 +16,10 @@ This project is designed for the STM8L051F3 microcontroller. It drives two TRIAC
 | Pin Nb | PINs | FUNCTIONs   | LABELs         |
 |--------|------|-------------|----------------|
 | 3      | PA0  | SYS_SWIM    | SWIM           |
-| 11     | PB1  | ADC1_IN17   | CURRENT_SENSOR |
+| 9      | PD0  | GPIO_Output | LED_RED        |
+| 10     | PB0  | GPIO_Output | LED_GREEN      |
 | 12     | PB2  | GPIO_Output | BUZZER         |
-| 13     | PB3  | GPIO_Output | LED_GREEN      |
-| 14     | PB4  | GPIO_Output | LED_RED        |
+| 14     | PB4  | ADC1_IN14   | CURRENT_SENSOR |
 | 16     | PB6  | GPIO_Input  | TILT_SWITCH    |
 | 17     | PB7  | GPIO_Output | TRIAC_1        |
 | 18     | PC0  | GPIO_Output | TRIAC_0        |
